@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!--
+  ________________________________________________
+  Copyright (c) 2020 European Space Agency
+  European Space Operations Centre
+  Darmstadt, Germany
+  ________________________________________________
+  System : LWMCS
+  Sub-System : esa.egos.lwmcs.service.mointerface
+  File Name : ServiceDefLWMCS.xml
+  Author : Lukasz.Stochlak
+  Creation Date : 21.05.2020
+  ________________________________________________
+-->
+
+<mal:specification
+  xmlns:mal="http://www.ccsds.org/schema/ServiceSchema">
+  <mal:area name="LWMCS" number="100" version="1"
+    comment="The frontend interface providing core services of the LWMCS system.">
+    <mal:service name="Connection" number="1"
+      comment="Space segment connection management services.">
+      <mal:capabilitySet number="1" comment="Connect/reconnect/disconnect.">
+        <mal:requestIP name="connect" number="1" supportInReplay="false"
+          comment="This operation creates a new connection.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="directoryURI" comment="Directory URI.">
+                <mal:type area="MAL" name="URI"/>
+              </mal:field>
+              <mal:field name="providerName" comment="Provider name.">
+                <mal:type area="MAL" name="String"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:type area="LWMCS" service="Connection" name="ConnectionInformation"/>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+        <mal:requestIP name="reconnect" number="2" supportInReplay="false"
+          comment="This operation reconnects existing connection.">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="uuid" comment="Connection UUID as String." canBeNull="false">
+                <mal:type area="MAL" name="String"/>
+              </mal:field>
+              <mal:field name="directoryURI" comment="Directory URI.">
+                <mal:type area="MAL" name="URI"/>
+              </mal:field>
+              <mal:field name="providerName" comment="Provider name.">
+                <mal:type area="MAL" name="String"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:type area="LWMCS" service="Connection" name="ConnectionInformation"/>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+        <mal:submitIP name="disconnect" number="3" supportInReplay="false"
+          comment="This operation disconnects existing connection.">
+          <mal:messages>
+            <mal:submit comment="UUID of connection to be closed (disconnected) should be submitted.">
+              <mal:field name="uuid" comment="Connection UUID." canBeNull="false">
+                <mal:type area="MAL" name="String"/>
+              </mal:field>
+            </mal:submit>
+          </mal:messages>
+        </mal:submitIP>
+      </mal:capabilitySet>
+      <mal:capabilitySet number="2" comment="Check connection.">
+        <mal:invokeIP name="checkConnection" number="4" supportInReplay="false"
+          comment="This operation checks existing connection.">
+          <mal:messages>
+            <mal:invoke>
+              <mal:field name="uuid" comment="Connection UUID." canBeNull="false">
+                <mal:type area="MAL" name="String"/>
+              </mal:field>
+            </mal:invoke>
+            <mal:acknowledgement/>
+            <mal:response>
+              <mal:type area="LWMCS" service="Connection"
+                name="ConnectionInformation"/>
+            </mal:response>
+          </mal:messages>
+        </mal:invokeIP>
+        <mal:requestIP name="retrieveProvidersFromDirectory" number="5" supportInReplay="false">
+          <mal:messages>
+            <mal:request>
+              <mal:field name="directoryURI" comment="Directory URI.">
+                <mal:type area="MAL" name="URI"/>
+              </mal:field>
+            </mal:request>
+            <mal:response>
+              <mal:type area="Common" service="Directory" name="ProviderSummary" list="true"/>
+            </mal:response>
+          </mal:messages>
+        </mal:requestIP>
+      </mal:capabilitySet>
+      <mal:dataTypes>
+        <mal:composite name="AvailableService" shortFormPart="1"
+          comment="This data structure defines a available service">
+          <mal:extends>
+            <mal:type area="MAL" name="Composite"/>
+          </mal:extends>
+          <mal:field name="name">
+            <mal:type area="MAL" name="String"/>
+          </mal:field>
+          <mal:field name="domain">
+            <mal:type area="MAL" name="String"/>
+          </mal:field>
+        </mal:composite>
+        <mal:composite name="ConnectionInformation" shortFormPart="2"
+          comment="This data structure defines a full established connection information">
+          <mal:extends>
+            <mal:type area="MAL" name="Composite"/>
+          </mal:extends>
+          <mal:field name="uuid">
+            <mal:type area="MAL" name="String"/>
+          </mal:field>
+          <mal:field name="connectionStatus">
+            <mal:type area="LWMCS" service="Connection" name="ConnectionStatus"/>
+          </mal:field>
+          <mal:field name="directoryServiceURI">
+            <mal:type area="MAL" name="URI"/>
+          </mal:field>
+          <mal:field name="provider">
+            <mal:type area="MAL" name="String"/>
+          </mal:field>
+          <mal:field name="domain">
+            <mal:type area="MAL" name="String"/>
+          </mal:field>
+          <mal:field name="dedicatedProviderMode">
+            <mal:type area="MAL" name="Boolean"/>
+          </mal:field>
+          <mal:field name="availableServices">
+            <mal:type list="true" area="LWMCS" service="Connection"
+              name="AvailableService"/>
+          </mal:field>
+        </mal:composite>
+        <mal:enumeration name="ConnectionStatus" shortFormPart="3">
+          <mal:item value="LIVE" nvalue="0"/>
+          <mal:item value="OFFLINE" nvalue="1"/>
+        </mal:enumeration>
+      </mal:dataTypes>
+    </mal:service>
+  </mal:area>
+</mal:specification>
