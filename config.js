@@ -23,7 +23,7 @@ configServiceDefFiles.development = [
 	"https://raw.githubusercontent.com/esa/CCSDS_MO_XML/development/MO_XML/src/main/resources/xml/ServiceDefMC.xml",
 	"https://raw.githubusercontent.com/esa/nanosat-mo-framework/dev/core/mo-services-xml/src/main/resources/xml/ServiceDefPLATFORM.xml",
 	"https://raw.githubusercontent.com/esa/nanosat-mo-framework/dev/core/mo-services-xml/src/main/resources/xml/ServiceDefSM.xml",
-	"https://gitlab.esa.int/LWMCS/LWMCS/-/raw/lwmcs_sprint_14/esa.egos.lwmcs/esa.egos.lwmcs.service/esa.egos.lwmcs.service.mcscore/esa.egos.lwmcs.service.mointerface/src/main/resources/specification/ServiceDefLWMCS.xml",
+	"https://raw.githubusercontent.com/lstochlak/MOWebViewer4LWMCS/master/xml/ServiceDefLWMCS.xml",
 ];
 
 var configServiceBookFiles = {
